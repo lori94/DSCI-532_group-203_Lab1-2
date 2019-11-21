@@ -1,5 +1,5 @@
-# Code of Conduct  
-Here's what we've agreed on the `Code of Conduct` of this team:  
+# Team work contract  
+Here's what we've agreed on the `Team work contract` of this team:  
 * Clear plan of what to do
 * Agreement on initial plan
 * Distribution of work should be equal
