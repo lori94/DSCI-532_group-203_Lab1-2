@@ -2,8 +2,7 @@
 Central Park is a famous public park in New York and there live a considerable amount of squirrels. However, the park is huge, so it may take some time to actually find or meet a squirrel. For those tourists, animal lovers, photographers or scientists who want to better observe squirrels, our app will make it easier to find more squirrels by showing squirrel population in different area in the park on a map and also allow users to see change of location of squirrels from morning to afternoon.
 
 ## Section 2: Description of the data
-
-
+The 2018 Central Park Squirrel Census dataset includes 3018 unique observations. Each observation describes a single squirrel sighting, and includes information on time of observation, location of squirrel, squirrel behavior, and squirrel appearance. We limit our exploration to observation time and location to formulate our research questions. Each observation notes a `Unique Squirrel ID`. Observation location is recorded as separate latitude (`X`) and longitude (`Y`) values from which a coordinate point (`Lat/Long`) is derived. The time of observation is recorded categorically as AM or PM in the `Shift` column. This column is used to derive `Count_difference`, the difference in squirrel count in the afternoon compared to the morning. In addition to the 2018 Central Park Squirrel Census dataset, we incorporate a geoJson file to supplement location information. The geoJson file includes a `sitename` field that lists named park areas, and a `geometry` field that represents these park area boundaries as polygons. 
 
 ## Section 3: Research questions and usage scenarios
 ### -Research questions(draft)
