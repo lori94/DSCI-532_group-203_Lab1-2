@@ -9,7 +9,7 @@ Cari Gostic
 Roc Zhang  
 Lori Fang  
 
-## Sketch  
+## Description of the app & sketch  
 
 > The app contains four plots for our users to conveniently know where and when they should go for the central park to observe squirrels.  
 The first plot on the top-left is a map of the park, with gradient colors filled in each region. The deeper the color, the more squirrels in that region. So with this map, the users can directly see which part of the park they should go to find squirrels. We think this can be really helpful because what the users get is not just region names, but an actual map. They won't need to look up those names if they are unfamiliar with the park.  
