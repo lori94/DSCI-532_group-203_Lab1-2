@@ -18,6 +18,7 @@ The bar plot on the top-right shows the difference in the number of squirrels be
 The last plot on the bottom-right tells about the number of squirrels by behavior. So the users can choose their behavior of interest in the drop-down menu, and the plot will change accordingly.  
 Users can also pick certain regions by clicking on the plot, and the plot will interactively highlight the selected regions (as is shown in the second sketch). 
   
+> A sketch of the app:
 
 ![image](https://i.ibb.co/sKKNZzw/Screen-Shot-2019-11-22-at-11-15-11-AM.png)  
 
