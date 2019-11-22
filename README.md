@@ -25,4 +25,4 @@ Users can also pick certain regions by clicking on the plot, and the plot will i
 
 > An example of how the plots will interact with user's selection of regions:
 
-![image](https://i.ibb.co/vkSpg7N/Screen-Shot-2019-11-22-at-11-22-33-AM.png)  
+![image](https://i.ibb.co/7Vk3qJ0/Screen-Shot-2019-11-22-at-3-11-33-PM.png)  
