@@ -12,12 +12,15 @@ Authors:
 
 #### App description:
 
-> Our app contains four plots that will help our users get to know the distribution of squirrels in the central park and efficiently plan their visit to the park, either to have more interaction with the squirrels or avoid them when having a picnic. Besides, users can also find information about where to go to explore a certain behavior of the squirrels.
-The first plot on the top-left is a map of the park, with gradient colors filled in each region. The deeper the color, the more squirrels in that region. So with this map, the users can directly see which part of the park they should go to find more or fewer squirrels. We think this can be really helpful because what the users get is not just region names, but an actual map. They won't need to look up those names if they are unfamiliar with the park.  
-The bar chart on the bottom-left gives information on the exact amount of squirrels in each region of the park. This bar chart can be straight-forward in telling the difference in numbers of squirrels among regions. And the bars are ordered so that our users can quickly find out the most and the lest squirrel-populated regions.  
-The bar plot on the top-right shows the difference in the number of squirrels between morning (AM) and afternoon (PM). The value is calculated by `PM` - `AM`, which means positive-value bars (red ones) indicates more squirrels in the afternoon (PM).  
-The last plot on the bottom-right tells about the number of squirrels by behavior. So the users can choose their behavior of interest in the drop-down menu, and the plot will change accordingly.  
-Users can also pick certain regions by clicking on the plot(or directly on the map), and the plot will interactively highlight the selected regions (as is shown in the second sketch). 
+> Our app contains four plots to help our users learn about the distribution of squirrels in the Central Park. It will enable users to  efficiently plan their visit to the park, either to have more interaction with the squirrels or avoid them (for example, if they were planning a picnic). Additionally, users can find information about where to go to observe a certain behavior of the squirrels.
+
+The first plot on the top-left is a map of the park, with a color gradient filling in each region. The deeper the color, the more squirrels are observed in that region. With this map, the users can directly plan to which part of the park they should go to find more or fewer squirrels. We think this will be really helpful because the users are shown both the region names as well as the location on an actual map. They won't need to look up those region names if they are unfamiliar with the park. 
+
+The bar chart on the bottom-left gives information on the exact amount of squirrels observed in each region of the park during the 2018 Squirrel Census. This bar chart displays explicitly the difference in number of squirrels across park regions. The bars are ordered so that our users can quickly identify the most- and the least-squirrel-populated regions. The bar chart on the top-right shows the difference in the number of squirrels between morning (AM) and afternoon (PM). The value is calculated by `PM` - `AM`, which means positive-value bars (red ones) indicates more squirrels in the afternoon (PM).  
+
+The last plot on the bottom-right gives information about the squirrel behavior throughout the park. Users can choose a behavior of interest in the drop-down menu, and the plot will update accordingly to show the number of observed instances of that behavior in each park area.  
+
+Users can select certain regions by clicking on any of the bar charts, or directly on the map, and all plots will interactively highlight the selected regions (as is shown in the second sketch). 
   
 #### Sketch:
 
