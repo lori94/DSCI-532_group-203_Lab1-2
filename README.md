@@ -21,7 +21,8 @@ Authors:
 >The last plot on the bottom-right gives information about the squirrel behavior throughout the park. Users can choose a behavior of interest in the drop-down menu, and the plot will update accordingly to show the number of observed instances of that behavior in each park area.  
 >
 >Users can select certain regions by clicking on any of the bar charts, or directly on the map, and all plots will interactively highlight the selected regions (as is shown in the second sketch). 
-  
+>
+
 #### Sketch:
 
 ![image](https://i.ibb.co/sKKNZzw/Screen-Shot-2019-11-22-at-11-15-11-AM.png)  
