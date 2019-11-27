@@ -4,12 +4,8 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import altair as alt
 import pandas as pd
-import geopandas as gpd
 import json
-from shapely.geometry import Point, Polygon
-from shapely.ops import cascaded_union
-import shapely.wkt
-import pandas_profiling
+
 
 
 
@@ -104,7 +100,7 @@ def make_plot(y_axis = 'Running_or_Chasing'):
             strokeWidth=1
         ).encode(
         ).properties(
-            width=950,
+            width=400,
             height=600
         )
 
@@ -123,7 +119,7 @@ def make_plot(y_axis = 'Running_or_Chasing'):
                 legend = alt.Legend(labelFontSize = 16, 
                                     titleFontSize = 20, 
                                     tickCount = 5,
-                                orient = "left")),
+                                orient = "top-left", direction = "vertical")),
             opacity=alt.condition(selection, 
                                 alt.value(0.8), 
                                 alt.value(0.1)),
@@ -155,16 +151,15 @@ def make_plot(y_axis = 'Running_or_Chasing'):
         .mark_bar()
         .add_selection(selection)
         .encode(
-            x = alt.X('properties.sitename_short:N', 
-                    title = "Park Region", 
-                    axis = alt.Axis(labelFontSize = 18,
-                                    titleFontSize = 20, 
-                                    labelAngle=270), 
-                    sort = sort_order),
-            y = alt.Y('properties.Unique_Squirrel_ID:Q', 
+            x = alt.X('properties.Unique_Squirrel_ID:Q', 
                     title = "Squirrel Count", 
                     axis = alt.Axis(labelFontSize = 16, 
                                     titleFontSize = 20)),
+            y = alt.Y('properties.sitename_short:N', 
+                    title = "Park Region", 
+                    axis = alt.Axis(labelFontSize = 12,
+                                    titleFontSize = 20), 
+                    sort = sort_order),
             color = alt.Color('properties.Unique_Squirrel_ID:Q',
                             scale=alt.Scale(scheme='greens')),
 
@@ -176,7 +171,7 @@ def make_plot(y_axis = 'Running_or_Chasing'):
                                 title="Park Region"), 
                 alt.Tooltip('properties.Unique_Squirrel_ID:Q', 
                             title="Squirrel Count")])
-        .properties(width = 950, height = 600))   
+        .properties(width = 400, height = 600))   
         return(count_bar)
 
     ################################################
@@ -187,16 +182,15 @@ def make_plot(y_axis = 'Running_or_Chasing'):
         .mark_bar()
         .add_selection(selection)
         .encode(
-            alt.X('properties.sitename_short:N',
-                axis = alt.Axis(labelFontSize = 18,
-                                titleFontSize = 20, 
-                                labelAngle=270), 
-                title = "Park Region",
-                sort = sort_order),
-            alt.Y('properties.Count_difference:Q', 
+            alt.X('properties.Count_difference:Q', 
                 title = "Count Difference (PM - AM)", 
                 axis = alt.Axis(labelFontSize = 16, 
                                 titleFontSize = 20)),
+            alt.Y('properties.sitename_short:N',
+                axis = alt.Axis(labelFontSize = 12,
+                                titleFontSize = 20), 
+                title = "Park Region",
+                sort = sort_order),
             opacity = alt.condition(selection, 
                                     alt.value(1.0), 
                                     alt.value(0.2)),
@@ -209,7 +203,7 @@ def make_plot(y_axis = 'Running_or_Chasing'):
             tooltip = [alt.Tooltip('properties.sitename:N', title="Park Region"), 
                     alt.Tooltip('properties.Count_difference:Q', title="Count difference")]
         ).properties(title = "Squirrel Count by Park Region: AM vs. PM",
-                    width = 950,
+                    width = 400,
                     height = 600))
         return(area_count_shift)
 
@@ -228,10 +222,12 @@ def make_plot(y_axis = 'Running_or_Chasing'):
             .mark_bar(color = 'gray')
             #.add_selection(b_select)
             .add_selection(selection)
-            .encode(alt.X('properties.sitename_short:N', title = "Park Region", sort = sort_order, axis = alt.Axis(labelFontSize = 18,
-                                                    titleFontSize = 20, labelAngle=270)), 
-                    alt.Y('properties.'+y_axis+':Q', title = "Squirrel Count", axis = alt.Axis(labelFontSize = 18,
-                                                    titleFontSize = 20)),
+            .encode(alt.X('properties.'+y_axis+':Q', 
+                          title = "Squirrel Count", axis = alt.Axis(labelFontSize = 18, titleFontSize = 20)),
+                
+                alt.Y('properties.sitename_short:N', 
+                          title = "Park Region", axis = alt.Axis(labelFontSize = 12, titleFontSize = 20),
+                          sort = sort_order), 
                     opacity = alt.condition(brush, 
                                         alt.value(1.0), 
                                         alt.value(0.2)),
@@ -240,7 +236,7 @@ def make_plot(y_axis = 'Running_or_Chasing'):
                 )
             #.transform_filter(b_select)
             .properties(title = "Squirrel Behavior by Park Region: "+y_axis,
-                        width = 950,
+                        width = 400,
                         height = 600))
         return b_chart
 
@@ -252,7 +248,7 @@ def make_plot(y_axis = 'Running_or_Chasing'):
 
 
     # Render stacked plots
-    chart = ((plot_map_total_count(brush) | plot_bar_total_count(brush)) & (plot_bar_behavior(brush, y_axis) | plot_bar_count_diff(brush))).configure_title(fontSize = 24)
+    chart = ((plot_map_total_count(brush) | plot_bar_total_count(brush)) & (plot_bar_count_diff(brush) | plot_bar_behavior(brush, y_axis))).configure_title(fontSize = 24)
 
     # source (code): https://www.districtdatalabs.com/altair-choropleth-viz
 
