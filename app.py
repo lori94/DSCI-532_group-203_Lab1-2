@@ -79,7 +79,6 @@ def make_plot(y_axis = 'Running_or_Chasing'):
     #alt.themes.enable('none') # to return to default    
     
     # load the data
-    
     with open('data/b_json_count.json') as data_file:
         b_json_count = json.load(data_file)
     squirrel_b_json = alt.Data(values = b_json_count['features'])
@@ -146,21 +145,23 @@ def make_plot(y_axis = 'Running_or_Chasing'):
     ##########################################
     # PLOT TOTAL SQUIRREL COUNT
     ##########################################
+
+
     def plot_bar_total_count(selection):
         count_bar = (alt.Chart(alt_base_layer_data_count, 
                             title = 'Squirrel Count by Park Region')
         .mark_bar()
         .add_selection(selection)
         .encode(
-            x = alt.X('properties.Unique_Squirrel_ID:Q', 
+            x = alt.Y('properties.Unique_Squirrel_ID:Q', 
                     title = "Squirrel Count", 
                     axis = alt.Axis(labelFontSize = 16, 
                                     titleFontSize = 20)),
-            y = alt.Y('properties.sitename_short:N', 
+            y = alt.X('properties.sitename_short:N', 
                     title = "Park Region", 
                     axis = alt.Axis(labelFontSize = 12,
                                     titleFontSize = 20), 
-                    sort = sort_order),
+                    sort = alt.EncodingSortField(field="properties.Unique_Squirrel_ID:Q", order="descending")),
             color = alt.Color('properties.Unique_Squirrel_ID:Q',
                             scale=alt.Scale(scheme='greens')),
 
@@ -191,7 +192,8 @@ def make_plot(y_axis = 'Running_or_Chasing'):
                 axis = alt.Axis(labelFontSize = 12,
                                 titleFontSize = 20), 
                 title = "Park Region",
-                sort = sort_order),
+                sort = sort_order
+                ),
             opacity = alt.condition(selection, 
                                     alt.value(1.0), 
                                     alt.value(0.2)),
@@ -228,15 +230,16 @@ def make_plot(y_axis = 'Running_or_Chasing'):
                 
                 alt.Y('properties.sitename_short:N', 
                           title = "Park Region", axis = alt.Axis(labelFontSize = 12, titleFontSize = 20),
-                          sort = sort_order), 
+                          sort = sort_order
+                    ), 
                     opacity = alt.condition(brush, 
                                         alt.value(1.0), 
                                         alt.value(0.2)),
                     tooltip = [alt.Tooltip('properties.sitename:N', title = "Park Region"), 
-                            alt.Tooltip('properties.b_count:Q', title = y_axis)]
+                            alt.Tooltip('properties.'+y_axis+':Q', title = y_axis.replace('_',' '))]
                 )
             #.transform_filter(b_select)
-            .properties(title = "Squirrel Behavior by Park Region: "+y_axis,
+            .properties(title = "Squirrel Behavior by Park Region: "+y_axis.replace('_',' '),
                         width = 400,
                         height = 600))
         return b_chart
@@ -249,7 +252,7 @@ def make_plot(y_axis = 'Running_or_Chasing'):
 
 
     # Render stacked plots
-    chart = ((plot_map_total_count(brush) | plot_bar_total_count(brush)) & (plot_bar_count_diff(brush) | plot_bar_behavior(brush, y_axis))).configure_title(fontSize = 24)
+    chart = ((plot_map_total_count(brush) | plot_bar_total_count(brush)) & (plot_bar_behavior(brush, y_axis) | plot_bar_count_diff(brush))).configure_title(fontSize = 24)
 
     # source (code): https://www.districtdatalabs.com/altair-choropleth-viz
 
@@ -260,14 +263,18 @@ app.layout = html.Div([
 
     ### ADD CONTENT HERE like: html.H1('text'),
     html.H1("Welcome to Squirrle Park App!!"),
-    html.H2("Add some description or user guidance?"),
-    html.H2("We'll need to resize the plots for it to fit well in the page."),
+    html.Img(src='https://i.ibb.co/F78bQB2/logo-2.png', 
+            width='15%'),
+    html.H2("Our app is a good assistance for people who want to observe(or avoid) squirrels in the Central Park of New York."),
+    html.H2("Users can see the squirrel distribution by park region, time of the day (AM/PM) and even behavior. (Try the drop-down menu at the bottom to select different behaviors!!)"),
+    html.H2("Users can also select specific regions by clicking on the map or bars to highlight them. (Press 'Shift' for multiple selection.)"),
+
 
     html.Iframe(
         sandbox='allow-scripts',
         id='plot',
-        height='2000',
-        width='2000',
+        height='1450',
+        width='1400',
         style={'border-width': '0px'},
 
         ################ The magic happens here
@@ -291,7 +298,10 @@ app.layout = html.Div([
             verticalAlign="middle")
     ),
     # html.Img(src='https://i.ibb.co/GcC3tpM/MG-0084-2.jpg')
-    html.H2("Maybe we want to create some space here so that the drop_down menu is more noticeable.")
+    html.H3("Source:"),
+    html.H3("Data of this app comes from: https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw"),
+    html.H3("Picture of the logo comes from: https://www.trzcacak.rs/myfile/full/50-509839_squirrel-black-and-white-free-squirrel-clipart-cartoon.png"),
+    
 
 ])
 
@@ -309,4 +319,4 @@ def update_plot(yaxis_column_name):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-   
+    
