@@ -79,6 +79,7 @@ def make_plot(y_axis = 'Running_or_Chasing'):
     #alt.themes.enable('none') # to return to default    
     
     # load the data
+    
     with open('data/b_json_count.json') as data_file:
         b_json_count = json.load(data_file)
     squirrel_b_json = alt.Data(values = b_json_count['features'])
@@ -308,3 +309,4 @@ def update_plot(yaxis_column_name):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+   
