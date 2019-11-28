@@ -79,11 +79,11 @@ def make_plot(y_axis = 'Running_or_Chasing'):
     #alt.themes.enable('none') # to return to default    
     
     # load the data
-    with open('b_json_count.json') as data_file:
+    with open('data/b_json_count.json') as data_file:
         b_json_count = json.load(data_file)
     squirrel_b_json = alt.Data(values = b_json_count['features'])
 
-    with open('alt_json_count.json') as data_file:
+    with open('data/alt_json_count.json') as data_file:
         alt_json_count = json.load(data_file)
     alt_base_layer_data_count = alt.Data(values = alt_json_count['features'])
 
