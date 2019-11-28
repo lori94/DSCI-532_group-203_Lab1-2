@@ -6,78 +6,14 @@ import altair as alt
 import pandas as pd
 import json
 
-
-
-
 app = dash.Dash(__name__, assets_folder='assets')
 server = app.server
 
-app.title = 'Dash app with pure Altair HTML'
+app.title = 'Squirrel App DSCI 532'
 
 ## add magic
 def make_plot(y_axis = 'Running_or_Chasing'):
-   
-    # Create a plot of the Displacement and the Horsepower of the cars dataset
-    def mds_special():
-        font = "Arial"
-        axisColor = "#000000"
-        gridColor = "#DEDDDD"
-        return {
-            "config": {
-                "title": {
-                    "fontSize": 24,
-                    "font": font,
-                    "anchor": "start", # equivalent of left-aligned.
-                    "fontColor": "#000000"
-                },
-                'view': {
-                    "height": 300, 
-                    "width": 400
-                },
-                "axisX": {
-                    "domain": True,
-                    #"domainColor": axisColor,
-                    "gridColor": gridColor,
-                    "domainWidth": 1,
-                    "grid": False,
-                    "labelFont": font,
-                    "labelFontSize": 12,
-                    "labelAngle": 0, 
-                    "tickColor": axisColor,
-                    "tickSize": 5, # default, including it just to show you can change it
-                    "titleFont": font,
-                    "titleFontSize": 16,
-                    "titlePadding": 10, # guessing, not specified in styleguide
-                    "title": "X Axis Title (units)", 
-                },
-                "axisY": {
-                    "domain": False,
-                    "grid": True,
-                    "gridColor": gridColor,
-                    "gridWidth": 1,
-                    "labelFont": font,
-                    "labelFontSize": 14,
-                    "labelAngle": 0, 
-                    #"ticks": False, # even if you don't have a "domain" you need to turn these off.
-                    "titleFont": font,
-                    "titleFontSize": 16,
-                    "titlePadding": 10, # guessing, not specified in styleguide
-                    "title": "Y Axis Title (units)", 
-                    # titles are by default vertical left of axis so we need to hack this 
-                    #"titleAngle": 0, # horizontal
-                    #"titleY": -10, # move it up
-                    #"titleX": 18, # move it to the right so it aligns with the labels 
-                },
-            }
-                }
-
-    # register the custom theme under a chosen name
-    alt.themes.register('mds_special', mds_special)
-
-    # enable the newly registered theme
-    alt.themes.enable('mds_special')
-    #alt.themes.enable('none') # to return to default    
-    
+       
     # load the data
     with open('data/b_json_count.json') as data_file:
         b_json_count = json.load(data_file)
@@ -87,7 +23,9 @@ def make_plot(y_axis = 'Running_or_Chasing'):
         alt_json_count = json.load(data_file)
     alt_base_layer_data_count = alt.Data(values = alt_json_count['features'])
 
-    # make the plot
+    # make the plots
+    ph = 700
+    pw = 700
     
     ##################################
     # PLOT MAP of SQUIRREL COUNT
@@ -100,8 +38,8 @@ def make_plot(y_axis = 'Running_or_Chasing'):
             strokeWidth=1
         ).encode(
         ).properties(
-            width=400,
-            height=600
+            width=pw,
+            height=ph
         )
 
         # Add Choropleth Layer
@@ -173,7 +111,8 @@ def make_plot(y_axis = 'Running_or_Chasing'):
                                 title="Park Region"), 
                 alt.Tooltip('properties.Unique_Squirrel_ID:Q', 
                             title="Squirrel Count")])
-        .properties(width = 400, height = 600))   
+        .properties(width = pw, 
+                    height = ph))   
         return(count_bar)
 
     ################################################
@@ -206,8 +145,8 @@ def make_plot(y_axis = 'Running_or_Chasing'):
             tooltip = [alt.Tooltip('properties.sitename:N', title="Park Region"), 
                     alt.Tooltip('properties.Count_difference:Q', title="Count difference")]
         ).properties(title = "Squirrel Count by Park Region: AM vs. PM",
-                    width = 400,
-                    height = 600))
+                    width = pw,
+                    height = ph))
         return(area_count_shift)
 
 
@@ -215,15 +154,9 @@ def make_plot(y_axis = 'Running_or_Chasing'):
     # PLOT BEHAVIOR by PARK AREA
     ###################################
     def plot_bar_behavior(selection, y_axis = y_axis):
-        #b = ['Running or Chasing', 'Climbing', 'Eating or Foraging', 'Vocalizing', 'Approaches Humans']
-        #b_dropdown = alt.binding_select(options=b)
-        #b_select = alt.selection_single(fields=['properties.behavior'], 
-        #                                bind = b_dropdown, name="Squirrel", 
-        #                                init = {'properties.behavior' : 'Running or Chasing'})
 
         b_chart = (alt.Chart(squirrel_b_json)
             .mark_bar(color = 'gray')
-            #.add_selection(b_select)
             .add_selection(selection)
             .encode(alt.X('properties.'+y_axis+':Q', 
                           title = "Squirrel Count", axis = alt.Axis(labelFontSize = 18, titleFontSize = 20)),
@@ -236,12 +169,11 @@ def make_plot(y_axis = 'Running_or_Chasing'):
                                         alt.value(1.0), 
                                         alt.value(0.2)),
                     tooltip = [alt.Tooltip('properties.sitename:N', title = "Park Region"), 
-                            alt.Tooltip('properties.'+y_axis+':Q', title = y_axis.replace('_',' '))]
+                            alt.Tooltip('properties.'+y_axis+':Q', title = "Count "+y_axis.replace('_',' '))]
                 )
-            #.transform_filter(b_select)
             .properties(title = "Squirrel Behavior by Park Region: "+y_axis.replace('_',' '),
-                        width = 400,
-                        height = 600))
+                        width = pw,
+                        height = ph))
         return b_chart
 
 
@@ -252,56 +184,83 @@ def make_plot(y_axis = 'Running_or_Chasing'):
 
 
     # Render stacked plots
-    chart = ((plot_map_total_count(brush) | plot_bar_total_count(brush)) & (plot_bar_behavior(brush, y_axis) | plot_bar_count_diff(brush))).configure_title(fontSize = 24)
+    chart = (((plot_map_total_count(brush) | plot_bar_total_count(brush)) & 
+            (plot_bar_behavior(brush, y_axis) | plot_bar_count_diff(brush)))
+            .configure_title(fontSize = 24)
+            .configure_view(fill = "white"))
 
     # source (code): https://www.districtdatalabs.com/altair-choropleth-viz
 
     return chart
 ## add magic
 
-app.layout = html.Div([
+app.layout = html.Div(
+    children = [
+        html.Div(
+            className = "app-header",
+            children = [
+                        html.Img(src='https://i.ibb.co/F78bQB2/logo-2.png', width=275),
+            ]
+        ),
+        html.Div(
+            className = "app__bodytext",
+            children = [      
+                        html.H1("Welcome to the Squirrel Park App!"),
+                        html.H3('Guide your observance (or avoidance) of the famous squirrels of Central Park, New York.'),
+                        html.P('View squirrel distribution by park region, time of the day, and behavior. ' 
+                                'Use the drop-down menu below the graphs to change the behavior displayed. '
+                                'Click on the map or any chart to highlight specific regions. Hold "Shift" and click'
+                                ' to highlight and compare multiple regions at once!')
+            ]
+        ),
+        html.Div(
+            className = "app__chart",
+            children = [
+                html.Iframe(
+                    sandbox='allow-scripts',
+                    id='plot',
+                    height='1600',
+                    width='2000',
+                    style={'border-width': '0px'},
 
-    ### ADD CONTENT HERE like: html.H1('text'),
-    html.H1("Welcome to Squirrle Park App!!"),
-    html.Img(src='https://i.ibb.co/F78bQB2/logo-2.png', 
-            width='15%'),
-    html.H2("Our app is a good assistance for people who want to observe(or avoid) squirrels in the Central Park of New York."),
-    html.H2("Users can see the squirrel distribution by park region, time of the day (AM/PM) and even behavior. (Try the drop-down menu at the bottom to select different behaviors!!)"),
-    html.H2("Users can also select specific regions by clicking on the map or bars to highlight them. (Press 'Shift' for multiple selection.)"),
-
-
-    html.Iframe(
-        sandbox='allow-scripts',
-        id='plot',
-        height='1450',
-        width='1400',
-        style={'border-width': '0px'},
-
-        ################ The magic happens here
-        srcDoc = make_plot().to_html()
-        ################ The magic happens here
-    ),
-
-    dcc.Dropdown(
-    id='dd-chart',
-    # ['Running or Chasing', 'Climbing', 'Eating or Foraging', 'Vocalizing', 'Approaches Humans']
-    options=[
-        {'label': 'Running or Chasing', 'value': 'Running_or_Chasing'},
-        {'label': 'Climbing', 'value': 'Climbing'},
-        {'label': 'Eating or Foraging', 'value': 'Eating_or_Foraging'},
-        {'label': 'Vocalizing', 'value': 'Vocalizing'},
-        {'label': 'Approaches Humans', 'value': 'Approaches Humans'},
-        # Missing option here
-    ],
-    value='Running_or_Chasing',
-    style=dict(width='45%',
-            verticalAlign="middle")
-    ),
-    # html.Img(src='https://i.ibb.co/GcC3tpM/MG-0084-2.jpg')
-    html.H3("Source:"),
-    html.H3("Data of this app comes from: https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw"),
-    html.H3("Picture of the logo comes from: https://www.trzcacak.rs/myfile/full/50-509839_squirrel-black-and-white-free-squirrel-clipart-cartoon.png"),
-    
+                    ################ The magic happens here
+                    srcDoc = make_plot().to_html()
+                    ################ The magic happens here
+                            ),
+                        html.Div(
+                            className = "app__chart-dd",
+                            children = [
+                                html.H3('Select a Behavior:'),
+                                dcc.Dropdown(
+                                    id='dd-chart',
+                                    # ['Running or Chasing', 'Climbing', 'Eating or Foraging', 'Vocalizing', 'Approaches Humans']
+                                    options=[
+                                        {'label': 'Running or Chasing', 'value': 'Running_or_Chasing'},
+                                        {'label': 'Climbing', 'value': 'Climbing'},
+                                        {'label': 'Eating or Foraging', 'value': 'Eating_or_Foraging'},
+                                        {'label': 'Vocalizing', 'value': 'Vocalizing'},
+                                        {'label': 'Approaches Humans', 'value': 'Approaches Humans'},
+                                        # Missing option here
+                                            ],
+                                    value = 'Running_or_Chasing',
+                                    style=dict(width='45%',
+                                                verticalAlign="middle",
+                                                fontSize = 18
+                                                )
+                                            ),
+                        ]
+                    )
+            ]
+        ),
+        html.Div(
+            className='app__sources',
+            children= [
+            html.H3("Sources:"),
+            html.H4("Data:"),
+            html.A("Data in this app comes from NYC OpenData", href="https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw"),
+            html.H4("Images"),
+            html.A("Picture of the logo comes from www.trzcacak.rs", href="https://www.trzcacak.rs/myfile/full/50-509839_squirrel-black-and-white-free-squirrel-clipart-cartoon.png")
+        ]) 
 
 ])
 
