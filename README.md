@@ -30,3 +30,12 @@ Authors:
 > An example of how the plots will interact with user's selection of regions:
 
 ![image](https://i.ibb.co/7Vk3qJ0/Screen-Shot-2019-11-22-at-3-11-33-PM.png)  
+
+
+#### Reflection
+
+- One benefit of our app is that users are allowed to directly click on the map and all the related information in other plots will be highlighted at the same time. This interaction helps efficiently retrieve the information that users need.
+- Users are allowed to select multi area for comparing the amount of squirrels in those area by simply press and hold shift and click the area on the map or bars in the chart.
+- The squirrels counts bars are sorted in an ascending order from top to bottom, when clicking on the bar, the area will as be highlighted on the map. This function make it easier for the users to find a place in the park where they want to see more or less squirrels.
+- One thing that need to be fixed is that the Park Region in y-axis of Squirrel Behaviour by Park Region plot is not in same order as other two bar charts. It took us a while trying to fix it and we even asked TA and Instructor's help but we failed to do so.
+- TO BE CONTINUE (I WILL KEEP ADDING COMMENTS TO THIS PART)
