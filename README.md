@@ -42,7 +42,7 @@ Authors:
 * Click on the map or any chart to highlight specific regions. Hold "Shift" and click to highlight and compare multiple regions at once!
 
 
-#### Reflection
+### Reflection
 
 - One benefit of our app is that users are allowed to directly click on the map and all the related information in other plots will be highlighted at the same time. This interaction helps efficiently retrieve the information that users need.
 - Users are allowed to select multi-area for comparing the amount of squirrels in those areas by simply press and hold shift and click the area on the map or bars in the chart.
