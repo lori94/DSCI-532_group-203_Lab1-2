@@ -208,6 +208,7 @@ app.layout = html.Div(
                         html.H1("Welcome to the Squirrel Park App!"),
                         html.H3('Guide your observance (or avoidance) of the famous squirrels of Central Park, New York.'),
                         html.P('View squirrel distribution by park region, time of the day, and behavior. ' 
+                                'Direct the mouse to a region or bar on the graphs to see detailed information. '
                                 'Use the drop-down menu below the graphs to change the behavior displayed. '
                                 'Click on the map or any chart to highlight specific regions. Hold "Shift" and click'
                                 ' to highlight and compare multiple regions at once!')
@@ -259,7 +260,9 @@ app.layout = html.Div(
             html.H4("Data:"),
             html.A("Data in this app comes from NYC OpenData", href="https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw"),
             html.H4("Images"),
-            html.A("Picture of the logo comes from www.trzcacak.rs", href="https://www.trzcacak.rs/myfile/full/50-509839_squirrel-black-and-white-free-squirrel-clipart-cartoon.png")
+            html.A("Picture of the logo comes from www.trzcacak.rs", href="https://www.trzcacak.rs/myfile/full/50-509839_squirrel-black-and-white-free-squirrel-clipart-cartoon.png"),
+            html.H4("GitHub"),
+            html.A("Visit our project's GitHub repository", href="https://github.com/UBC-MDS/DSCI-532_group-203_Lab1-2"),
         ]) 
 
 ])
