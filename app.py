@@ -1,7 +1,8 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+import dash_bootstrap_components as dbc
+from dash.dependencies import Input, Output, State
 import altair as alt
 import pandas as pd
 import json
@@ -192,10 +193,49 @@ def make_plot(y_axis = 'Running_or_Chasing'):
     # source (code): https://www.districtdatalabs.com/altair-choropleth-viz
 
     return chart
+
+fade = html.Div(
+    [
+        dbc.Button("Sources", id="fade-button", className="mb-3"),
+        dbc.Fade(
+            dbc.Card(
+                dbc.CardBody(
+                    html.Div(
+            className='app__sources',
+            children= [
+            html.H3("Sources:"),
+            html.H4("Data:"),
+            html.A("Data in this app comes from NYC OpenData", href="https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw"),
+            html.H4("Images"),
+            html.A("Picture of the logo comes from www.trzcacak.rs", href="https://www.trzcacak.rs/myfile/full/50-509839_squirrel-black-and-white-free-squirrel-clipart-cartoon.png"),
+            html.H4("GitHub"),
+            html.A("Visit our project's GitHub repository", href="https://github.com/UBC-MDS/DSCI-532_group-203_Lab1-2"),
+        ]) 
+
+                )
+            ),
+            id="fade",
+            is_in=True,
+            appear=False,
+        ),
+    ]
+)
+alerts = html.Div(
+    [
+        dbc.Alert("This is a primary alert", color="primary"),
+        dbc.Alert("This is a secondary alert", color="secondary"),
+        dbc.Alert("This is a success alert! Well done!", color="success"),
+        dbc.Alert("This is a warning alert... be careful...", color="warning"),
+        dbc.Alert("This is a danger alert. Scary!", color="danger"),
+        dbc.Alert("This is an info alert. Good to know!", color="info"),
+        dbc.Alert("This is a light alert", color="light"),
+        dbc.Alert("This is a dark alert", color="dark"),
+    ]
+)
 ## add magic
 
 app.layout = html.Div(
-    children = [
+    children = [alerts,
         html.Div(
             className = "app-header",
             children = [
@@ -252,20 +292,7 @@ app.layout = html.Div(
                         ]
                     )
             ]
-        ),
-        html.Div(
-            className='app__sources',
-            children= [
-            html.H3("Sources:"),
-            html.H4("Data:"),
-            html.A("Data in this app comes from NYC OpenData", href="https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw"),
-            html.H4("Images"),
-            html.A("Picture of the logo comes from www.trzcacak.rs", href="https://www.trzcacak.rs/myfile/full/50-509839_squirrel-black-and-white-free-squirrel-clipart-cartoon.png"),
-            html.H4("GitHub"),
-            html.A("Visit our project's GitHub repository", href="https://github.com/UBC-MDS/DSCI-532_group-203_Lab1-2"),
-        ]) 
-
-])
+        ),fade])
 
 @app.callback(
     dash.dependencies.Output('plot', 'srcDoc'),
@@ -278,6 +305,16 @@ def update_plot(yaxis_column_name):
     updated_plot = make_plot(yaxis_column_name).to_html()
     return updated_plot
 
+@app.callback(
+    Output("fade", "is_in"),
+    [Input("fade-button", "n_clicks")],
+    [State("fade", "is_in")],
+)
+def toggle_fade(n, is_in):
+    if not n:
+        # Button has never been clicked
+        return True
+    return not is_in
 
 if __name__ == '__main__':
     app.run_server(debug=True)
