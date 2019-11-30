@@ -259,7 +259,7 @@ app.layout = html.Div(
             children= [
             html.H3("Sources:"),
             html.H4("Data:"),
-            html.A("Data", href="https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw"),
+            html.A("Data of this app comes from here", href="https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw"),
             html.H4("Images"),
             html.A("Picture of the logo comes from www.trzcacak.rs", href="https://www.trzcacak.rs/myfile/full/50-509839_squirrel-black-and-white-free-squirrel-clipart-cartoon.png"),
             html.H4("GitHub"),
