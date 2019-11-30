@@ -40,12 +40,3 @@ Authors:
 * Direct the mouse to a region or bar on the graphs for tooltips. 
 * Use the drop-down menu below the graphs to change the behavior displayed. 
 * Click on the map or any chart to highlight specific regions. Hold "Shift" and click to highlight and compare multiple regions at once!
-
-
-### Reflection
-
-- One benefit of our app is that users are allowed to directly click on the map and all the related information in other plots will be highlighted at the same time. This interaction helps efficiently retrieve the information that users need.
-- Users are allowed to select multi-area for comparing the amount of squirrels in those areas by simply press and hold shift and click the area on the map or bars in the chart.
-- The squirrel counts bars are sorted in an ascending order from top to bottom, when clicking on the bar, the area will as be highlighted on the map. This function makes it easier for users to find a place in the park where they want to see more or fewer squirrels.
-- One thing that needs to be fixed is that the Park Region in y-axis of Squirrel Behaviour by Park Region plot is not in the same order as other two bar charts. It took us quite a while trying to fix it and we even asked TA and Instructor's help but we failed to do so.
-- TO BE CONTINUE (I WILL KEEP ADDING COMMENTS TO THIS PART)

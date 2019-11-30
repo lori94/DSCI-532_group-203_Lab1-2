@@ -1,7 +1,8 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+import dash_bootstrap_components as dbc
+from dash.dependencies import Input, Output, State
 import altair as alt
 import pandas as pd
 import json
@@ -194,6 +195,30 @@ def make_plot(y_axis = 'Running_or_Chasing'):
     return chart
 ## add magic
 
+collapse = html.Div(
+    [dbc.Button(
+            "Reference",
+            id="collapse-button",
+            className="mb-3",
+            color="primary",
+        ),
+        dbc.Collapse(
+            dbc.Card(dbc.CardBody([
+            html.H4("Sources", className="card-title"),
+            html.P(
+                "Click to check our whole project and all the references.",
+                className="card-text",
+            ),
+            dbc.CardLink("Data", href="https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw"),
+                
+            dbc.CardLink("Images", href="https://www.trzcacak.rs/myfile/full/50-509839_squirrel-black-and-white-free-squirrel-clipart-cartoon.png"),
+                
+            dbc.CardLink("Visit our project's GitHub repository", href="https://github.com/UBC-MDS/DSCI-532_group-203_Lab1-2"),
+        ])),
+            id="collapse",
+        ),
+    ])
+
 app.layout = html.Div(
     children = [
         html.Div(
@@ -252,20 +277,8 @@ app.layout = html.Div(
                         ]
                     )
             ]
-        ),
-        html.Div(
-            className='app__sources',
-            children= [
-            html.H3("Sources:"),
-            html.H4("Data:"),
-            html.A("Data in this app comes from NYC OpenData", href="https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw"),
-            html.H4("Images"),
-            html.A("Picture of the logo comes from www.trzcacak.rs", href="https://www.trzcacak.rs/myfile/full/50-509839_squirrel-black-and-white-free-squirrel-clipart-cartoon.png"),
-            html.H4("GitHub"),
-            html.A("Visit our project's GitHub repository", href="https://github.com/UBC-MDS/DSCI-532_group-203_Lab1-2"),
+        ),collapse,
         ]) 
-
-])
 
 @app.callback(
     dash.dependencies.Output('plot', 'srcDoc'),
@@ -277,7 +290,15 @@ def update_plot(yaxis_column_name):
     '''
     updated_plot = make_plot(yaxis_column_name).to_html()
     return updated_plot
-
+@app.callback(
+    dash.dependencies.Output("collapse", "is_open"),
+    [dash.dependencies.Input("collapse-button", "n_clicks")],
+    [dash.dependencies.State("collapse", "is_open")],
+)
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
 
 if __name__ == '__main__':
     app.run_server(debug=True)
