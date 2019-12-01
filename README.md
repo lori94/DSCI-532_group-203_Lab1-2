@@ -40,3 +40,7 @@ Authors:
 * Direct the mouse to a region or bar on the graphs for tooltips. 
 * Use the drop-down menu below the graphs to change the behavior displayed. 
 * Click on the map or any chart to highlight specific regions. Hold "Shift" and click to highlight and compare multiple regions at once!
+
+### Link to the app
+[Squirrle-Park-App](https://dsci-532-group203-milestone2.herokuapp.com/)  
+https://dsci-532-group203-milestone2.herokuapp.com/
