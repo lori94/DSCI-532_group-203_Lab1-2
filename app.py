@@ -1,15 +1,27 @@
 import dash
 import dash_core_components as dcc
+import dash_bootstrap_components as dbc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import altair as alt
 import pandas as pd
 import json
 
-app = dash.Dash(__name__, assets_folder='assets')
+
+
+
+
+
+
+
+
+
+app = dash.Dash(__name__, assets_folder='assets', external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
 app.title = 'Squirrel App DSCI 532'
+
+
 
 ## add magic
 def make_plot(y_axis = 'Running_or_Chasing'):
@@ -227,7 +239,25 @@ app.layout = html.Div(
                     ################ The magic happens here
                     srcDoc = make_plot().to_html()
                     ################ The magic happens here
-                            ),
+                            ),html.Div(
+    [
+        dbc.Row(
+            [
+                dbc.Col(
+                    html.Div("Interested in a certain behavior of squirrels? Select the behavior from the drop-down menu below to see where you can find more squirrels doing that! NOTE: This selection will only reflect on this plot."),
+                    width={"size": 6, "order": 1, "offset": 1},
+                ),
+                dbc.Col(html.Div(
+    [dbc.Card(
+            dbc.CardBody("Blue bar means this area has more squirrels in the morning while red bar means more squirrels in the afternoon."),
+            className="mb-3",
+        ),
+    ]
+), width={"size": 6, "order": 3, "offset": 8},),
+            ]
+        ),
+    ]
+),
                         html.Div(
                             className = "app__chart-dd",
                             children = [
@@ -248,22 +278,24 @@ app.layout = html.Div(
                                                 verticalAlign="middle",
                                                 fontSize = 18
                                                 )
-                                            ),
+                                            )
                         ]
                     )
-            ]
-        ),
+             ], 
+        ), 
+       
         html.Div(
-            className='app__sources',
-            children= [
-            html.H3("Sources:"),
-            html.H4("Data:"),
-            html.A("Data of this app comes from here", href="https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw"),
-            html.H4("Images"),
-            html.A("Picture of the logo comes from www.trzcacak.rs", href="https://www.trzcacak.rs/myfile/full/50-509839_squirrel-black-and-white-free-squirrel-clipart-cartoon.png"),
-            html.H4("GitHub"),
-            html.A("Visit our project's GitHub repository", href="https://github.com/UBC-MDS/DSCI-532_group-203_Lab1-2"),
-        ]) 
+            className = "app__bodytext",
+            children = [
+                        html.H1("Sources:"),
+                        html.H4('Data:'),
+                        html.A("Data of this app comes from here", href="https://data.cityofnewyork.us/Environment/2018-Central-Park-Squirrel-Census-Squirrel-Data/vfnx-vebw"),
+                        html.H4("Images"),
+                        html.A("Picture of the logo comes from www.trzcacak.rs", href="https://www.trzcacak.rs/myfile/full/50-509839_squirrel-black-and-white-free-squirrel-clipart-cartoon.png"),
+                        html.H4("GitHub"),
+                        html.A("Visit our project's GitHub repository", href="https://github.com/UBC-MDS/DSCI-532_group-203_Lab1-2"),
+            ]
+        )
 
 ])
 
